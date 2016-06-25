@@ -17,6 +17,7 @@
 import os
 import requests
 import subprocess
+import time
 import pprint
 
 bearer = os.getenv('bearer')
@@ -63,7 +64,7 @@ def verify_action_completed_prime(bearer, action_id):
       a = r.json()['action']
       if a['id'] == action_id and a['status'] == 'completed':
         return
-    if r.status_code != 201:
+    elif r.status_code != 201:
       raise Exception(r.text)
     time.sleep(3)
   raise Exception('Action {} still not completed'.format(action_id))
@@ -109,10 +110,23 @@ def power_on(bearer, droplet_id):
   return r.json()['action']
 
 def verify_running_kernel(expected_version, hostname):
-  actual_version = subprocess.check_output(['ssh', hostname, 'uname', '-r']).decode('ascii').strip()
-  if expected_version != actual_version:
-    raise Exception('Host {} is running kernel {} although we just rebooted to {}'.format(
-      hostname, actual_version, expected_version))
+  print('Verifying {} is running: {}'.format(hostname, expected_version))
+  sleep_time = 0.5
+  for i in range(3):
+    try:
+      actual_version = subprocess.check_output(['ssh', hostname, 'uname', '-r']).decode('ascii').strip()
+      if expected_version != actual_version:
+        raise Exception('Host {} is running kernel {} although we just rebooted to {}'.format(
+          hostname, actual_version, expected_version))
+      return
+    except subprocess.CalledProcessError as e:
+      if e.returncode == 255:
+        time.sleep(sleep_time)
+        sleep_time = sleep_time * 2
+        continue
+      else:
+        raise
+  raise Exception('ssh command failed several times')
 
 # cf. ~/info/digitalocean
 
