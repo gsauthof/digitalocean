@@ -3,14 +3,7 @@
 # Configure the current CentOS kernel on all droplets
 # and restart where necessary.
 #
-# Background: Digital Ocean CentOS images are a little bit special
-# with respect to kernel upgrades. A `yum update && shutdown -r now`
-# is not enough to get the latest stable kernel with all the security fixes.
-# Instead one has to explicitly select the right kernel version outside of
-# the VM (e.g. via the frontend or API) and reboot the doplet.
-#
-# The script uses the digital ocean API and ssh to apply those steps
-# to all droplets where the running kernel is outdated.
+# cf. README.md for details
 #
 # 2016, Georg Sauthoff <mail@georg.so>, GPL3+
 
