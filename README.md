@@ -1,6 +1,9 @@
 This repository contains a Python 3 script for automatically configuring the
 current CentOS kernel on [DigitalOcean][do] CentOS droplets and restarting.
 
+The script uses the DigitalOcean API and ssh to apply those steps
+to all droplets where the running kernel is outdated.
+
 **Update (2016-10):** Since June, 2016, the script is more of
 historic interest (and an example how to use the DigitalOcean v2
 API) because DigitalOcean started to provide a GrubLoader for
@@ -8,16 +11,13 @@ CentOS (cf. the Background Section).
 
 2016, Georg Sauthoff <mail@georg.so>
 
-## Past Background
+## History
 
-DigitalOcean CentOS images [are a little bit special
+DigitalOcean CentOS images [were a little bit special
 with respect to kernel upgrades][1]. A `yum update && shutdown -r now`
-is not enough to get the latest stable kernel with all the security fixes.
-Instead one has to explicitly select the right kernel version outside of
+wasn't enough to get the latest stable kernel with all the security fixes.
+Instead one had to explicitly select the right kernel version outside of
 the VM (e.g. via the frontend or API) and reboot the doplet.
-
-The script uses the DigitalOcean API and ssh to apply those steps
-to all droplets where the running kernel is outdated.
 
 ## Background
 
