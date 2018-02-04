@@ -29,12 +29,13 @@ provides GrubLoader 'kernels' for CentOS ([since June, 2016 or so][3]):
 
     DigitalOcean GrubLoader v0.1 (20160527) CentOS
     DigitalOcean GrubLoader v0.2 (20160714) CentOS
+    ...
 
 With that, updating the kernel on a CentOS droplet is as easy as
 everywhere else, i.e. it is just a `yum update` and `shutdown -r
-now` away. Apparently, this [took them 3 years or so][2] (the
-2013 date on the article is misleading, it wasn't updated when
-the new CentOS content was added).
+now` away. Apparently, this change [took them 3 years or so][2]
+to implement (the 2013 date on the article is misleading as it
+was updated several times since 2013).
 
 That means that the new recommended way to setup a CentOS droplet
 is to just configure the GrubLoader 'kernel' and do standard
@@ -44,6 +45,15 @@ Note that when switching an existing droplet to GrubLoader, one
 still has to execute the old procedure once: select the
 GrubLoader in the control panel (or via the API), power off the
 system and power it on again (via the control panel/API).
+
+As of 2018-01, [new droplets are automatically created][2] with so
+called 'internal kernel management', by default. That means that
+Grub is automatically used. With a new droplet the kernel tab
+just prints:
+
+> Kernel
+> The kernel for this Droplet is managed internally and cannot be changed
+> from the control panel.
 
 [do]: https://en.wikipedia.org/wiki/DigitalOcean
 [1]: https://www.digitalocean.com/community/questions/kernel-update
